@@ -54,11 +54,13 @@ void run(int n, int threshold, double x_min, double x_max, double y_min, double 
 
 		//printf("%f\t%f\t%d\t%d\n", x, y, k, threshold);
 	}
-	double r = (double) q / (double) n;
-	double u = 1 / sqrt((double) n);
-	double A_rect = (x_max - x_min) * (y_max - y_min);
-	printf("k\t= %d\nN\t= %d\nA\t= %f\nu(A)\t= %f\n",
-			q, n, A_rect * r, A_rect * u);
+	double m = (double) q / (double) n;
+	double s = sqrt(1/(double)n * ( (double)(n-q)*m*m + (double)q*(1-m)*(1-m)));
+
+	double A = (x_max - x_min) * (y_max - y_min);
+	double r = A * m;
+	double u = A * s / sqrt((double) n);
+	printf("k\t= %d\nN\t= %d\nA\t= %f\nu(A)\t= %f\n", q, n, r, u);
 }
 
 int main()
