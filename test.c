@@ -28,10 +28,10 @@ int mandelbrot(double complex c, int threshold)
 	return 0;
 }
 
-/* Generate complex numbers ad infinitum and apply mandelbrot() to them. */
-void run(int threshold, double x_min, double x_max, double y_min, double y_max)
+/* Generate n complex numbers and apply mandelbrot() to them. */
+void run(int n, int threshold, double x_min, double x_max, double y_min, double y_max)
 {
-	while (true) {
+	for (int i = 0; i < n; i++) {
 		double x = uniform(x_min, x_max);
 		double y = uniform(y_min, y_max);
 		double complex z = x + I*y;
@@ -43,5 +43,9 @@ void run(int threshold, double x_min, double x_max, double y_min, double y_max)
 
 int main()
 {
+	int n		= 1000000;
+	int threshold	= 1000000;
+	run(n, threshold, -2, 2, -2, 2);
+
 	return 0;
 }
