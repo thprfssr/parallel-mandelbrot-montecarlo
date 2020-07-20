@@ -3,12 +3,20 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
+bool PRNG_INITIALIZED = false;
 
 /* Returns a random number between a and b. */
 double uniform(double a, double b)
 {
+	if (!PRNG_INITIALIZED) {
+		srand(time(NULL));
+		PRNG_INITIALIZED = true;
+	}
+
 	/* Get a number between 0 and 1. */
-	double r = rand() / (double) RAND_MAX;
+	double r = (double) rand() / (double) RAND_MAX;
 
 	/* Adjust it to be within the desired interval. */
 	double s = (b - a) * r + a;
@@ -49,7 +57,8 @@ void run(int n, int threshold, double x_min, double x_max, double y_min, double 
 	double r = (double) q / (double) n;
 	double u = 1 / sqrt((double) n);
 	double A_rect = (x_max - x_min) * (y_max - y_min);
-	printf("k\t= %d\nN\t= %d\nA\t= %f\nu(A)\t= %f\n", q, n, A_rect * r, u);
+	printf("k\t= %d\nN\t= %d\nA\t= %f\nu(A)\t= %f\n",
+			q, n, A_rect * r, A_rect * u);
 }
 
 int main()
