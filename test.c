@@ -1,4 +1,5 @@
 #include <complex.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -25,6 +26,19 @@ int mandelbrot(double complex c, int threshold)
 			return i;
 	}
 	return 0;
+}
+
+/* Generate complex numbers ad infinitum and apply mandelbrot() to them. */
+void run(int threshold, double x_min, double x_max, double y_min, double y_max)
+{
+	while (true) {
+		double x = uniform(x_min, x_max);
+		double y = uniform(y_min, y_max);
+		double complex z = x + I*y;
+		int k = mandelbrot(z, threshold);
+
+		printf("%f\t%f\t%d\t%d\n", x, y, k, threshold);
+	}
 }
 
 int main()
