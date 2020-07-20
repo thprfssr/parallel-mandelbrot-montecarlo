@@ -1,4 +1,5 @@
 #include <complex.h>
+#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,21 +32,33 @@ int mandelbrot(double complex c, int threshold)
 /* Generate n complex numbers and apply mandelbrot() to them. */
 void run(int n, int threshold, double x_min, double x_max, double y_min, double y_max)
 {
+
+	int q = 0;
+	#pragma omp parallel for reduction(+:q)
 	for (int i = 0; i < n; i++) {
 		double x = uniform(x_min, x_max);
 		double y = uniform(y_min, y_max);
 		double complex z = x + I*y;
 		int k = mandelbrot(z, threshold);
 
-		printf("%f\t%f\t%d\t%d\n", x, y, k, threshold);
+		if (k == 0)
+			q++;
+
+		//printf("%f\t%f\t%d\t%d\n", x, y, k, threshold);
 	}
+	double r = (double) q / (double) n;
+	double u = 1 / sqrt((double) n);
+	double A_rect = (x_max - x_min) * (y_max - y_min);
+	printf("k\t= %d\nN\t= %d\nA\t= %f\nu(A)\t= %f\n", q, n, A_rect * r, u);
 }
 
 int main()
 {
 	int n		= 1000000;
-	int threshold	= 1000000;
+	int threshold	= 1000;
 	run(n, threshold, -2, 2, -2, 2);
+
+
 
 	return 0;
 }
