@@ -67,7 +67,8 @@ int main()
 {
 	int n		= 1000000;
 	int threshold	= 1000;
-	run(n, threshold, -2, 2, -2, 2);
+	//run(n, threshold, -2, 2, -2, 2);
+	run(n, threshold, -2, 0.5, -1.2, 1.2);
 
 
 
